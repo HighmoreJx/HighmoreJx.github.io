@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,Objective-c," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="整理和翻译的一些OC的代码规范">
+<meta name="keywords" content="iOS,Objective-c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective Code Style">
+<meta property="og:url" content="http://yoursite.com/2017/12/13/Objective-C-Code Style/index.html">
+<meta property="og:site_name" content="Highmore">
+<meta property="og:description" content="整理和翻译的一些OC的代码规范">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-13T07:44:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective Code Style">
+<meta name="twitter:description" content="整理和翻译的一些OC的代码规范">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/13/Objective-C-Code Style/"/>
+
+
+
+
+
+  <title>Objective Code Style | Highmore</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Highmore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/Objective-C-Code Style/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HighmoreJx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Highmore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Objective Code Style</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T13:47:00+08:00">
+                2017-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>整理和翻译的一些OC的代码规范</p>
+<a id="more"></a>
+<h4 id="代码组织"><a href="#代码组织" class="headerlink" title="代码组织"></a>代码组织</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - Lifecycle</span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;&#125;</span><br><span class="line">- (void)dealloc &#123;&#125;</span><br><span class="line">- (void)viewDidLoad &#123;&#125;</span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;&#125;</span><br><span class="line">- (void)didReceiveMemoryWarning &#123;&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Custom Accessors</span><br><span class="line"></span><br><span class="line">- (void)setCustomProperty:(id)value &#123;&#125;</span><br><span class="line">- (id)customProperty &#123;&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - IBActions</span><br><span class="line"></span><br><span class="line">- (IBAction)submitData:(id)sender &#123;&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Public</span><br><span class="line"></span><br><span class="line">- (void)publicMethod &#123;&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Private</span><br><span class="line"></span><br><span class="line">- (void)privateMethod &#123;&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Protocol conformance</span><br><span class="line">#pragma mark - UITextFieldDelegate</span><br><span class="line">#pragma mark - UITableViewDataSource</span><br><span class="line">#pragma mark - UITableViewDelegate</span><br><span class="line"></span><br><span class="line">#pragma mark - NSCopying</span><br><span class="line"></span><br><span class="line">- (id)copyWithZone:(NSZone *)zone &#123;&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - NSObject</span><br><span class="line"></span><br><span class="line">- (NSString *)description &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="间距"><a href="#间距" class="headerlink" title="间距"></a>间距</h4><ul>
+<li><p>针对 if/else/switch/while 等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (user.isHappy) &#123;</span><br><span class="line">  //Do something</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  //Do something else</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件内各方法之间用空行隔开</p>
+</li>
+<li>针对只含单条执行语句的条件句</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if (condition)&#123;</span><br><span class="line">  statement;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">if (condition) statement;</span><br><span class="line"></span><br><span class="line">//不好的方式:</span><br><span class="line">if(condition)</span><br><span class="line">	 statement;</span><br></pre></td></tr></table></figure>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li>在一些不易理解的代码部分，应适当加以注释说明。同时在.m中也应避免大段的成块注释，而只应写一些简单的说明。</li>
+</ul>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><ul>
+<li>在方法签名中，- or + 后面最好接一个空格</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)setExampleText:(NSString *)text image:(UIImage *)image;</span><br></pre></td></tr></table></figure>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><ul>
+<li>*应该紧贴变量名 (有const修饰的情况除外)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *text</span><br></pre></td></tr></table></figure>
+<ul>
+<li>尽可能使用@property, 避免使用实例变量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//prferred:</span><br><span class="line">@interface RWTTutorial : NSObject</span><br><span class="line">@property (strong, nonatomic) NSString *tutorialName;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">//not preferred:</span><br><span class="line">@interface RWTTutorial : NSObject &#123;</span><br><span class="line">  NSString *tutorialName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了init, initWithCoder, dealloc, 及自定义的setter和getter, 应尽量避免直接访问实例变量</p>
+<ul>
+<li>变量属性的修饰顺序应该先放置内存管理，再放置原子性。这样就可以和interface builder拖拽默认生成的一致。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (weak, nonatomic) IBOutlet UIView *containerView;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>具有可变对象（列入NSString）最好优先选择copy而不是strong修饰</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property（copy，nonatomic） NSString * tutorialName;</span><br></pre></td></tr></table></figure>
+<h4 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h4><ul>
+<li>针对 delegate 或 data source协议，第一个参数应该是发送该协议的对象 (处理一对多的情况)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;</span><br></pre></td></tr></table></figure>
+<h4 id="Imports"><a href="#Imports" class="headerlink" title="Imports"></a>Imports</h4><ul>
+<li>如果imports过多的情况，建议简单的按照用途分在一起</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Frameworks</span><br><span class="line">@import QuartzCore;</span><br><span class="line"></span><br><span class="line">// Models</span><br><span class="line">#import &quot;NYTUser.h&quot;</span><br><span class="line"></span><br><span class="line">// Views</span><br><span class="line">#import &quot;NYTButton.h&quot;</span><br><span class="line">#import &quot;NYTUserView.h&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h4><ul>
+<li>当执行的方法中error是以引用的形式返回时，我们应该先检查返回值，而不是直接对error进行判空操作</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">NSError *error;</span><br><span class="line">if (![self trySomethingWithError:&amp;error]) &#123;</span><br><span class="line">    // Handle Error</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Not:</span><br><span class="line">NSError *error;</span><br><span class="line">[self trySomethingWithError:&amp;error];</span><br><span class="line">if (error) &#123;</span><br><span class="line">    // Handle Error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原因是某些Apple的API可能会往error中写入一些垃圾值，这就会使某些正确的情况被判断为错误。</p>
+<h4 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h4><ul>
+<li>常量命名: 驼峰 + 前缀（相关类）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static const NSTimeInterval THSArticleViewControllerNavigationFadeAnimationDuration = 0.3;</span><br><span class="line">//not:</span><br><span class="line">static const NSTimeInterval fadetime = 1.7;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>属性: 驼峰命名 + 首字母小写</li>
+<li>实例变量：驼峰命名 + 下划线前缀</li>
+<li>category:  按照功能命名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@interface NSString (NSStringEncodingDetection)</span><br><span class="line">//not:</span><br><span class="line">@interface NSString (THSAdditions)</span><br></pre></td></tr></table></figure>
+<p>category所添加的属性和方法需要加上 特定的 组织或者APP前缀，这样可以避免复写某些已经存在的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@interface NSArray (NYTAccessors)</span><br><span class="line">- (id)ths_objectOrNilAtIndex:(NSUInteger)index;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h4 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h4><p>多用字面量语法，少用与之等价的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">NSArray *names = @[@&quot;Brian&quot;, @&quot;Matt&quot;, @&quot;Chris&quot;, @&quot;Alex&quot;, @&quot;Steve&quot;, @&quot;Paul&quot;];</span><br><span class="line">NSDictionary *productManagers = @&#123;@&quot;iPhone&quot; : @&quot;Kate&quot;, @&quot;iPad&quot; : @&quot;Kamal&quot;, @&quot;Mobile Web&quot; : @&quot;Bill&quot;&#125;;</span><br><span class="line">NSNumber *shouldUseLiterals = @YES;</span><br><span class="line"></span><br><span class="line">//not：</span><br><span class="line">NSArray *names = [NSArray arrayWithObjects:@&quot;Brian&quot;, @&quot;Matt&quot;, @&quot;Chris&quot;, @&quot;Alex&quot;, @&quot;Steve&quot;, @&quot;Paul&quot;, nil];</span><br><span class="line">NSDictionary *productManagers = [NSDictionary dictionaryWithObjectsAndKeys: @&quot;Kate&quot;, @&quot;iPhone&quot;, @&quot;Kamal&quot;, @&quot;iPad&quot;, @&quot;Bill&quot;, @&quot;Mobile Web&quot;, nil];</span><br><span class="line">NSNumber *shouldUseLiterals = [NSNumber numberWithBool:YES];</span><br><span class="line">NSNumber *buildingZIPCode = [NSNumber numberWithInteger:10018];</span><br></pre></td></tr></table></figure>
+<h4 id="CGRect-相关函数"><a href="#CGRect-相关函数" class="headerlink" title="CGRect 相关函数"></a>CGRect 相关函数</h4><ul>
+<li>当需要获取x, y, width, height等值时，最好使用CGRect的相关函数来获得，而不是直接获取CGRect结构体的值(确保宽，高都为正数等等)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CGRect frame = self.view.frame;</span><br><span class="line"></span><br><span class="line">CGFloat x = CGRectGetMinX(frame);</span><br><span class="line">CGFloat y = CGRectGetMinY(frame);</span><br><span class="line">CGFloat width = CGRectGetWidth(frame);</span><br><span class="line">CGFloat height = CGRectGetHeight(frame);</span><br></pre></td></tr></table></figure>
+<p><a href="http://stackoverflow.com/questions/5970823/cgrectgetwidth-vs-cgrect-size-width" target="_blank" rel="noopener">http://stackoverflow.com/questions/5970823/cgrectgetwidth-vs-cgrect-size-width</a></p>
+<h4 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h4><ul>
+<li>不要直接与YES比较！</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (isAwesome == YES) // Never do this.</span><br></pre></td></tr></table></figure>
+<p>非0之外的任何一个值都是YES.但以上表达式中的YES只是其中一个值, 这样会造成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BOOL b = 42;</span><br><span class="line">if (b) &#123;</span><br><span class="line">    // true</span><br><span class="line">&#125;</span><br><span class="line">if (b != YES) &#123;</span><br><span class="line">    // also true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果属性名称带形容词性，可以在getter前加一个is的前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (assign, getter=isEditable) BOOL editable;</span><br></pre></td></tr></table></figure>
+<h4 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h4><ul>
+<li>尽量不要嵌套多个if语句。 （可用多个return语句来取代if的嵌套）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)someMethod &#123;</span><br><span class="line">    if (![someOther boolValue]) return;</span><br><span class="line">    //Do something important</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//not: </span><br><span class="line">- (void)someMethod &#123;</span><br><span class="line">    if ([someOther boolValue]) &#123;;</span><br><span class="line">        //Do something important</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="私有变量"><a href="#私有变量" class="headerlink" title="私有变量"></a>私有变量</h4><ul>
+<li>私有变量应放在.m的实现文件中。不应该在.h中堆砌。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Objective-c/" rel="tag"># Objective-c</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/13/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/13/View-Animations/" rel="prev" title="View Animations">
+                View Animations <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">HighmoreJx</p>
+              <p class="site-description motion-element" itemprop="description">EDM & Code & Life</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码组织"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;&#x7EC4;&#x7EC7;" class="headerlink" title="&#x4EE3;&#x7801;&#x7EC4;&#x7EC7;"></a>&#x4EE3;&#x7801;&#x7EC4;&#x7EC7;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#间距"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x95F4;&#x8DDD;" class="headerlink" title="&#x95F4;&#x8DDD;"></a>&#x95F4;&#x8DDD;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注释"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x6CE8;&#x91CA;" class="headerlink" title="&#x6CE8;&#x91CA;"></a>&#x6CE8;&#x91CA;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x65B9;&#x6CD5;" class="headerlink" title="&#x65B9;&#x6CD5;"></a>&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x53D8;&#x91CF;" class="headerlink" title="&#x53D8;&#x91CF;"></a>&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协议"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x534F;&#x8BAE;" class="headerlink" title="&#x534F;&#x8BAE;"></a>&#x534F;&#x8BAE;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Imports"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Imports" class="headerlink" title="Imports"></a>Imports</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误处理"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x9519;&#x8BEF;&#x5904;&#x7406;" class="headerlink" title="&#x9519;&#x8BEF;&#x5904;&#x7406;"></a>&#x9519;&#x8BEF;&#x5904;&#x7406;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命名"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x547D;&#x540D;" class="headerlink" title="&#x547D;&#x540D;"></a>&#x547D;&#x540D;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字面量"><span class="nav-number">10.</span> <span class="nav-text"><a href="#&#x5B57;&#x9762;&#x91CF;" class="headerlink" title="&#x5B57;&#x9762;&#x91CF;"></a>&#x5B57;&#x9762;&#x91CF;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGRect-相关函数"><span class="nav-number">11.</span> <span class="nav-text"><a href="#CGRect-&#x76F8;&#x5173;&#x51FD;&#x6570;" class="headerlink" title="CGRect &#x76F8;&#x5173;&#x51FD;&#x6570;"></a>CGRect &#x76F8;&#x5173;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#布尔值"><span class="nav-number">12.</span> <span class="nav-text"><a href="#&#x5E03;&#x5C14;&#x503C;" class="headerlink" title="&#x5E03;&#x5C14;&#x503C;"></a>&#x5E03;&#x5C14;&#x503C;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件语句"><span class="nav-number">13.</span> <span class="nav-text"><a href="#&#x6761;&#x4EF6;&#x8BED;&#x53E5;" class="headerlink" title="&#x6761;&#x4EF6;&#x8BED;&#x53E5;"></a>&#x6761;&#x4EF6;&#x8BED;&#x53E5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#私有变量"><span class="nav-number">14.</span> <span class="nav-text"><a href="#&#x79C1;&#x6709;&#x53D8;&#x91CF;" class="headerlink" title="&#x79C1;&#x6709;&#x53D8;&#x91CF;"></a>&#x79C1;&#x6709;&#x53D8;&#x91CF;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HighmoreJx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
