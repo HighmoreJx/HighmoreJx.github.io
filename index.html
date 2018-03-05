@@ -772,7 +772,7 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/Layer-Animations - Part Three/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/View Controller Transition Animations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="HighmoreJx">
@@ -791,7 +791,7 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/13/Layer-Animations - Part Three/" itemprop="url">Layer Animations - Part III</a></h1>
+                <a class="post-title-link" href="/2017/12/13/View Controller Transition Animations/" itemprop="url">View Controller Transition Animations</a></h1>
         
 
         <div class="post-meta">
@@ -875,37 +875,12 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
 
       
         
-          <p>这节主要翻译一些特殊的动画。</p>
-<h3 id="形状与遮罩（Shapes-and-Masks）"><a href="#形状与遮罩（Shapes-and-Masks）" class="headerlink" title="形状与遮罩（Shapes and Masks）"></a>形状与遮罩（Shapes and Masks）</h3><table>
-<thead>
-<tr>
-<th>动画属性</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>path</td>
-<td>将显示层改变成不同的形状</td>
-</tr>
-<tr>
-<td>fillColor</td>
-<td>将填充色改为不同的颜色</td>
-</tr>
-<tr>
-<td>lineDashPhase</td>
-<td>在图形周围画电线</td>
-</tr>
-<tr>
-<td>lineWidth</td>
-<td>图形边线宽度</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span>  morphAnimation =  <span class="type">CABasicAnimation</span> (keyPath: <span class="string">"path"</span> ) </span><br><span class="line">morphAnimation.duration = animationDuration  </span><br><span class="line">morphAnimation.toValue = <span class="type">UIBezierPath</span>(ovalIn:  </span><br><span class="line">  morphedFrame).cgPath </span><br><span class="line">morphAnimation.timingFunction = <span class="type">CAMediaTimingFunction</span> ( </span><br><span class="line">  name: kCAMediaTimingFunctionEaseOut)</span><br><span class="line">circleLayer.add(morphAnimation, forKey: <span class="literal">nil</span> )</span><br></pre></td></tr></table></figure>
+          <h3 id="弹出页面（presentation-controller）"><a href="#弹出页面（presentation-controller）" class="headerlink" title="弹出页面（presentation controller）"></a>弹出页面（presentation controller）</h3><p>UIKit允许你通过实现UIViewControllerTransitioningDelegate来定制个性化的controller弹出转场。</p>
+<h4 id="UIViewController实现对应的delegate"><a href="#UIViewController实现对应的delegate" class="headerlink" title="UIViewController实现对应的delegate"></a>UIViewController实现对应的delegate</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">ViewController</span>: <span class="title">UIViewControllerTransitioningDelegate</span> </span>&#123; </span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forPresented presented:UIViewController, presenting:UIViewController, source: UIViewController)</span></span> -&gt; </span><br><span class="line">	<span class="type">UIViewControllerAnimatedTransitioning</span>? &#123;  </span><br><span class="line"> 	 	<span class="keyword">return</span>  transition  </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forDismissed dismissed: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning</span>? &#123;</span><br><span class="line">		<span class="keyword">return</span>  <span class="literal">nil</span>  </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="创建控制转场的UIViewControllerAnimatedTransitioning"><a href="#创建控制转场的UIViewControllerAnimatedTransitioning" class="headerlink" title="创建控制转场的UIViewControllerAnimatedTransitioning"></a>创建控制转场的UIViewControllerAnimatedTransitioning</h4>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/13/Layer-Animations - Part Three/#more" rel="contents">
+            <a class="btn" href="/2017/12/13/View Controller Transition Animations/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1115,165 +1090,6 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/View Controller Transition Animations/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="HighmoreJx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Highmore">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/13/View Controller Transition Animations/" itemprop="url">View Controller Transition Animations</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T13:48:00+08:00">
-                2017-12-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/Animation/" itemprop="url" rel="index">
-                    <span itemprop="name">Animation</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="弹出页面（presentation-controller）"><a href="#弹出页面（presentation-controller）" class="headerlink" title="弹出页面（presentation controller）"></a>弹出页面（presentation controller）</h3><p>UIKit允许你通过实现UIViewControllerTransitioningDelegate来定制个性化的controller弹出转场。</p>
-<h4 id="UIViewController实现对应的delegate"><a href="#UIViewController实现对应的delegate" class="headerlink" title="UIViewController实现对应的delegate"></a>UIViewController实现对应的delegate</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">ViewController</span>: <span class="title">UIViewControllerTransitioningDelegate</span> </span>&#123; </span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forPresented presented:UIViewController, presenting:UIViewController, source: UIViewController)</span></span> -&gt; </span><br><span class="line">	<span class="type">UIViewControllerAnimatedTransitioning</span>? &#123;  </span><br><span class="line"> 	 	<span class="keyword">return</span>  transition  </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forDismissed dismissed: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning</span>? &#123;</span><br><span class="line">		<span class="keyword">return</span>  <span class="literal">nil</span>  </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="创建控制转场的UIViewControllerAnimatedTransitioning"><a href="#创建控制转场的UIViewControllerAnimatedTransitioning" class="headerlink" title="创建控制转场的UIViewControllerAnimatedTransitioning"></a>创建控制转场的UIViewControllerAnimatedTransitioning</h4>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/13/View Controller Transition Animations/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/View-Animations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1381,6 +1197,190 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/13/View-Animations/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/Layer-Animations - Part Three/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HighmoreJx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Highmore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/13/Layer-Animations - Part Three/" itemprop="url">Layer Animations - Part III</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T13:48:00+08:00">
+                2017-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/Animation/" itemprop="url" rel="index">
+                    <span itemprop="name">Animation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这节主要翻译一些特殊的动画。</p>
+<h3 id="形状与遮罩（Shapes-and-Masks）"><a href="#形状与遮罩（Shapes-and-Masks）" class="headerlink" title="形状与遮罩（Shapes and Masks）"></a>形状与遮罩（Shapes and Masks）</h3><table>
+<thead>
+<tr>
+<th>动画属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>path</td>
+<td>将显示层改变成不同的形状</td>
+</tr>
+<tr>
+<td>fillColor</td>
+<td>将填充色改为不同的颜色</td>
+</tr>
+<tr>
+<td>lineDashPhase</td>
+<td>在图形周围画电线</td>
+</tr>
+<tr>
+<td>lineWidth</td>
+<td>图形边线宽度</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span>  morphAnimation =  <span class="type">CABasicAnimation</span> (keyPath: <span class="string">"path"</span> ) </span><br><span class="line">morphAnimation.duration = animationDuration  </span><br><span class="line">morphAnimation.toValue = <span class="type">UIBezierPath</span>(ovalIn:  </span><br><span class="line">  morphedFrame).cgPath </span><br><span class="line">morphAnimation.timingFunction = <span class="type">CAMediaTimingFunction</span> ( </span><br><span class="line">  name: kCAMediaTimingFunctionEaseOut)</span><br><span class="line">circleLayer.add(morphAnimation, forKey: <span class="literal">nil</span> )</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/13/Layer-Animations - Part Three/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1955,7 +1955,7 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
