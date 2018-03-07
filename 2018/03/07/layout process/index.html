@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前言 controller本身是一个很普通的类, 析构和构造与任意新建的类没有什么不同, 而通常开发者所说的生命周期,并不是指controller类本身的生命周期,而是指代其维护的视图层次的不同执行阶段. controller有一个view属性, 而这个view就是所维护的视图层次的根视图. 其中, view属性采用了懒加载的方式, 即第一次访问该属性时才会加载或者创建它.">
+<meta name="description" content="RunLoop = Main Run Loop + Update Cycle 为了便于理解,可以将整个App的RunLoop看做是由以上两个阶段组成.App在Main Run Loop Update Cycle阶段, 如果需要重新绘制, 布局等等.会给对应视图做好标记,等到Update Cycle时会真正开始对视图进行修改.整篇文章也围绕着以上理解展开.">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="生命周期简单理解">
-<meta property="og:url" content="http://yoursite.com/2018/03/06/Life Cycle/index.html">
+<meta property="og:title" content="布局流程简单整理">
+<meta property="og:url" content="http://yoursite.com/2018/03/07/layout process/index.html">
 <meta property="og:site_name" content="Highmore">
-<meta property="og:description" content="前言 controller本身是一个很普通的类, 析构和构造与任意新建的类没有什么不同, 而通常开发者所说的生命周期,并不是指controller类本身的生命周期,而是指代其维护的视图层次的不同执行阶段. controller有一个view属性, 而这个view就是所维护的视图层次的根视图. 其中, view属性采用了懒加载的方式, 即第一次访问该属性时才会加载或者创建它.">
+<meta property="og:description" content="RunLoop = Main Run Loop + Update Cycle 为了便于理解,可以将整个App的RunLoop看做是由以上两个阶段组成.App在Main Run Loop Update Cycle阶段, 如果需要重新绘制, 布局等等.会给对应视图做好标记,等到Update Cycle时会真正开始对视图进行修改.整篇文章也围绕着以上理解展开.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T14:21:32.238Z">
+<meta property="og:updated_time" content="2018-03-07T15:40:58.904Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="生命周期简单理解">
-<meta name="twitter:description" content="前言 controller本身是一个很普通的类, 析构和构造与任意新建的类没有什么不同, 而通常开发者所说的生命周期,并不是指controller类本身的生命周期,而是指代其维护的视图层次的不同执行阶段. controller有一个view属性, 而这个view就是所维护的视图层次的根视图. 其中, view属性采用了懒加载的方式, 即第一次访问该属性时才会加载或者创建它.">
+<meta name="twitter:title" content="布局流程简单整理">
+<meta name="twitter:description" content="RunLoop = Main Run Loop + Update Cycle 为了便于理解,可以将整个App的RunLoop看做是由以上两个阶段组成.App在Main Run Loop Update Cycle阶段, 如果需要重新绘制, 布局等等.会给对应视图做好标记,等到Update Cycle时会真正开始对视图进行修改.整篇文章也围绕着以上理解展开.">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/06/Life Cycle/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/07/layout process/"/>
 
 
 
 
 
-  <title>生命周期简单理解 | Highmore</title>
+  <title>布局流程简单整理 | Highmore</title>
   
 
 
@@ -285,7 +285,7 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/Life Cycle/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/07/layout process/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="HighmoreJx">
@@ -302,7 +302,7 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
 
         
         
-          <h1 class="post-title" itemprop="name headline">生命周期简单理解</h1>
+          <h1 class="post-title" itemprop="name headline">布局流程简单整理</h1>
         
 
         <div class="post-meta">
@@ -314,8 +314,8 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T10:20:00+08:00">
-                2018-03-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T23:39:00+08:00">
+                2018-03-07
               </time>
             
 
@@ -379,38 +379,43 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
-<li>controller本身是一个很普通的类, 析构和构造与任意新建的类没有什么不同, 而通常开发者所说的生命周期,并不是指controller类本身的生命周期,而是指代其维护的视图层次的不同执行阶段.</li>
-<li>controller有一个view属性, 而这个view就是所维护的视图层次的根视图. 其中, view属性采用了懒加载的方式, 即第一次访问该属性时才会加载或者创建它.<a id="more"></a>
-</li>
+        <p><strong>RunLoop = Main Run Loop + Update Cycle</strong></p>
+<p>为了便于理解,可以将整个App的RunLoop看做是由以上两个阶段组成.<br>App在Main Run Loop Update Cycle阶段, 如果需要重新绘制, 布局等等.会给对应视图做好标记,<br>等到Update Cycle时会真正开始对视图进行修改.整篇文章也围绕着以上理解展开.<br><a id="more"></a></p>
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>简单来说,就是视图在屏幕的位置和大小.</p>
+<h3 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews()"></a>layoutSubviews()</h3><p>调整当前视图及所有子视图的位置和大小.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func layoutSubviews() // override point. called by layoutIfNeeded automatically. As of iOS 6.0, when constraints-based layout is used the base implementation applies the constraints-based layout, otherwise it does nothing.</span><br></pre></td></tr></table></figure>
+<p>该函数会在layoutIfNeeded调用后, 自动被调用. 调用代价也比较昂贵, 不要显示调用该函数.</p>
+<p>隐式触发的条件:</p>
+<ul>
+<li>addSubview. 被add的视图, 容器视图及容器视图的所有子视图都会触发layoutSubviews</li>
+<li>视图的frame的size改变. 注意size的值必须有变化,否则不会触发. - (感觉不是绝对的, 试了下origin改变到一定程度也会触发)<br><em>注意, 视图的frame改变会优先调用其superview的layoutSubviews. 然后再调用subview的layoutSubviews</em></li>
+<li>用户旋转设备</li>
+<li>滚动scrollView时scrollView及scrollView的superview会触发</li>
+<li>更新视图约束</li>
 </ul>
-<h2 id="生命周期开篇之加载"><a href="#生命周期开篇之加载" class="headerlink" title="生命周期开篇之加载"></a>生命周期开篇之加载</h2><p>简单来理解就是视图资源的加载, 方式无非就是两种,  一种是从资源文件中加载(stroryboard, nib), 一种是纯代码创建.</p>
-<h3 id="资源文件创建"><a href="#资源文件创建" class="headerlink" title="资源文件创建"></a>资源文件创建</h3><ul>
-<li>故事版加载的话, 那么首先会生成UIStoryboard对象, story对象会调用相应方法通过标识符来加载controller</li>
-<li>nib文件加载会调用controller的对应方法通过资源名称来加载controller</li>
+<h3 id="setNeedsLayout"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout"></a>setNeedsLayout</h3><p>标记当前视图需要重新计算布局, 函数会立刻返回, 但是真正生效需要等待更新周期的来临</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func setNeedsLayout()</span><br></pre></td></tr></table></figure>
+<h3 id="layoutIfNeeded"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded"></a>layoutIfNeeded</h3><p>检查当前视图是否需要重新布局, 如果有系统立即触发layoutSubviews, 没有的话该函数没有作用.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func layoutIfNeeded()</span><br></pre></td></tr></table></figure></p>
+<h2 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h2><p>视图的显示包括颜色, 文本, 图片, 和core graphics绘制等.</p>
+<h3 id="draw"><a href="#draw" class="headerlink" title="draw"></a>draw</h3><p>类似于布局的layoutSubviews, 但不会触发子视图的draw. 同样也不要显示调用该方法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func draw(_ rect: CGRect)</span><br></pre></td></tr></table></figure>
+<h3 id="setNeedsDisplay"><a href="#setNeedsDisplay" class="headerlink" title="setNeedsDisplay"></a>setNeedsDisplay</h3><p>标记当前视图需要重新绘制, 函数立刻返回, 真正生效需要等待更新周期<br>周期来临, 会遍历所有的subview, 决定是否调用draw, 如果只想绘制部分, 可调用相应的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">open func setNeedsDisplay()</span><br><span class="line">open func setNeedsDisplay(_ rect: CGRect)</span><br></pre></td></tr></table></figure>
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><p>三个步骤: 更新约束, 布局阶段, 显示阶段(draw)</p>
+<h3 id="updateConstraints"><a href="#updateConstraints" class="headerlink" title="updateConstraints"></a>updateConstraints</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func updateConstraints() // Override this to adjust your special constraints during a constraints update pass</span><br></pre></td></tr></table></figure>
+<h3 id="setNeedsUpdateConstraints"><a href="#setNeedsUpdateConstraints" class="headerlink" title="setNeedsUpdateConstraints"></a>setNeedsUpdateConstraints</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func setNeedsUpdateConstraints()</span><br></pre></td></tr></table></figure>
+<h3 id="updateConstraintsIfNeeded"><a href="#updateConstraintsIfNeeded" class="headerlink" title="updateConstraintsIfNeeded"></a>updateConstraintsIfNeeded</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func updateConstraintsIfNeeded() // Updates the constraints from the bottom up for the view hierarchy rooted at the receiver. UIWindow&apos;s implementation creates a layout engine if necessary first.</span><br></pre></td></tr></table></figure>
+<h3 id="invalidateIntrinsicContentSize"><a href="#invalidateIntrinsicContentSize" class="headerlink" title="invalidateIntrinsicContentSize"></a>invalidateIntrinsicContentSize</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open func invalidateIntrinsicContentSize() // call this when something changes that affects the intrinsicContentSize.  Otherwise UIKit won&apos;t notice that it changed.</span><br></pre></td></tr></table></figure>
+<p>前三个函数的含义和布局的类似. 最后一个函数代表根据视图内容得到自然尺寸, 更新周期来临生效.</p>
+<p>补充:</p>
+<ul>
+<li>setNeedsUpdateConstraints会保证未来周期来临调用updateConstraintsIfNeeded时.一定会触发updateConstraints</li>
+<li>setNeedsLayout会保证未来周期来临调用layoutIfNeeded时.一定会触发layoutSubviews</li>
+<li>layoutSubviews调用时, 随后也会调用updateConstraintsIfNeeded.</li>
 </ul>
-<h3 id="纯代码"><a href="#纯代码" class="headerlink" title="纯代码"></a>纯代码</h3><ul>
-<li>即alloc一个view赋值给viewController的self.view</li>
-</ul>
-<p>super.loadView的作用:<br>如果controller初始化函数传入了对应nib名称,就加载对应资源给view赋值.<br>如果未传入,就按照类名加载nib来赋值.<br>如果没找到对应的nib,就创建一个空白的view来赋值.<br>因此, 如果你打算自建view来替换controller的view时, 就无需再调用super.loadview了.</p>
-<h3 id="生命周期之卸载"><a href="#生命周期之卸载" class="headerlink" title="生命周期之卸载"></a>生命周期之卸载</h3><p>移动设备的内存是有限的, 当收到系统的内存警告时, controller的view的superview如果为空, 就会释放view, 调用unload相关方法.<br>如果手动将self.view置位nil也是同样.</p>
-<p><em>注意dealloc是针对viewcontroller的析构,而上述只是清理controller管理的资源, controller本身还是存在的.下一次controller就可以直接通过view的懒加载获取资源, 即从loadview步骤开始执行. </em></p>
-<h2 id="生命周期大致流程"><a href="#生命周期大致流程" class="headerlink" title="生命周期大致流程"></a>生命周期大致流程</h2><ul>
-<li>初始化viewcontroller, 传入对应的资源文件名称或者nil(纯代码)<br>这一步用于准备所有的视图层级所展示的资源, 连接好所有的outlet与action</li>
-<li>awakefromnib<br>这一步代表所有资源已经准备完毕, 是作为上一个步骤的补充, 用于写一些没有办法在ib里面完成的设计,比如会根据不同的条件有不同的attribute等等</li>
-<li>loadview</li>
-<li>viewdidload</li>
-<li>willappear</li>
-<li>layoutsubviews</li>
-<li>didlayoutsubviews</li>
-<li>didappear</li>
-<li>willdisappear</li>
-<li>diddisappear</li>
-</ul>
-<h2 id="注意问题"><a href="#注意问题" class="headerlink" title="注意问题"></a>注意问题</h2><ul>
-<li>除了initWithNibName和awakeFromNib方法是处理视图控制器外，其他方法都是处理视图。这两个方法在视图控制器的生命周期里只会调用一次</li>
-<li>awakefromnib 调用时, 获取视图的frame是不正确的.所以里面不应该包含一些和frame相关的操作</li>
-</ul>
+<p>资料:<br><a href="https://medium.com/@abhimuralidharan/ios-swift-setneedslayout-vs-layoutifneeded-vs-layoutsubviews-5a2b486da31c" target="_blank" rel="noopener">iOS swift — setNeedsLayout vs layoutIfNeeded vs layoutSubviews()</a></p>
+<p><a href="https://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra" target="_blank" rel="noopener">ios - setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded - Stack Overflow</a></p>
+<p><a href="http://tech.gc.com/demystifying-ios-layout/" target="_blank" rel="noopener">Demystifying iOS Layout • GameChanger Tech Blog</a></p>
 
       
     </div>
@@ -470,8 +475,8 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/13/RxSwift/" rel="next" title="RxSwift基础整理">
-                <i class="fa fa-chevron-left"></i> RxSwift基础整理
+              <a href="/2018/03/06/Life Cycle/" rel="next" title="生命周期简单理解">
+                <i class="fa fa-chevron-left"></i> 生命周期简单理解
               </a>
             
           </div>
@@ -479,10 +484,6 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/07/layout process/" rel="prev" title="布局流程简单整理">
-                布局流程简单整理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -635,7 +636,7 @@ const loadScript = function loadScript(c,b){var a=document.createElement("script
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期开篇之加载"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x751F;&#x547D;&#x5468;&#x671F;&#x5F00;&#x7BC7;&#x4E4B;&#x52A0;&#x8F7D;" class="headerlink" title="&#x751F;&#x547D;&#x5468;&#x671F;&#x5F00;&#x7BC7;&#x4E4B;&#x52A0;&#x8F7D;"></a>&#x751F;&#x547D;&#x5468;&#x671F;&#x5F00;&#x7BC7;&#x4E4B;&#x52A0;&#x8F7D;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源文件创建"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x521B;&#x5EFA;" class="headerlink" title="&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x521B;&#x5EFA;"></a>&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x521B;&#x5EFA;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纯代码"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x7EAF;&#x4EE3;&#x7801;" class="headerlink" title="&#x7EAF;&#x4EE3;&#x7801;"></a>&#x7EAF;&#x4EE3;&#x7801;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期之卸载"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x751F;&#x547D;&#x5468;&#x671F;&#x4E4B;&#x5378;&#x8F7D;" class="headerlink" title="&#x751F;&#x547D;&#x5468;&#x671F;&#x4E4B;&#x5378;&#x8F7D;"></a>&#x751F;&#x547D;&#x5468;&#x671F;&#x4E4B;&#x5378;&#x8F7D;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期大致流程"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x751F;&#x547D;&#x5468;&#x671F;&#x5927;&#x81F4;&#x6D41;&#x7A0B;" class="headerlink" title="&#x751F;&#x547D;&#x5468;&#x671F;&#x5927;&#x81F4;&#x6D41;&#x7A0B;"></a>&#x751F;&#x547D;&#x5468;&#x671F;&#x5927;&#x81F4;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意问题"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x6CE8;&#x610F;&#x95EE;&#x9898;" class="headerlink" title="&#x6CE8;&#x610F;&#x95EE;&#x9898;"></a>&#x6CE8;&#x610F;&#x95EE;&#x9898;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#布局"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x5E03;&#x5C40;" class="headerlink" title="&#x5E03;&#x5C40;"></a>&#x5E03;&#x5C40;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#layoutSubviews"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews()"></a>layoutSubviews()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setNeedsLayout"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout"></a>setNeedsLayout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layoutIfNeeded"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded"></a>layoutIfNeeded</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x663E;&#x793A;" class="headerlink" title="&#x663E;&#x793A;"></a>&#x663E;&#x793A;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#draw"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#draw" class="headerlink" title="draw"></a>draw</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setNeedsDisplay"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#setNeedsDisplay" class="headerlink" title="setNeedsDisplay"></a>setNeedsDisplay</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#约束"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x7EA6;&#x675F;" class="headerlink" title="&#x7EA6;&#x675F;"></a>&#x7EA6;&#x675F;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#updateConstraints"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#updateConstraints" class="headerlink" title="updateConstraints"></a>updateConstraints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setNeedsUpdateConstraints"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#setNeedsUpdateConstraints" class="headerlink" title="setNeedsUpdateConstraints"></a>setNeedsUpdateConstraints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#updateConstraintsIfNeeded"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#updateConstraintsIfNeeded" class="headerlink" title="updateConstraintsIfNeeded"></a>updateConstraintsIfNeeded</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invalidateIntrinsicContentSize"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#invalidateIntrinsicContentSize" class="headerlink" title="invalidateIntrinsicContentSize"></a>invalidateIntrinsicContentSize</span></a></li></ol></li></ol></div>
             
 
           </div>
